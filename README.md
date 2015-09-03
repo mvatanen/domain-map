@@ -12,21 +12,35 @@ Information that scripts collect is:
 IPV4 and IPV6 scripts need to be run separately
 
 Domain/hostname -> www-server ip addresses
+
 Domain/hostname -> www-server ip addresses, cut to /24 bit subnet mask
+
 Domain/hostname -> www-server ip addresses -> Country
+
 Domain/hostname -> www-server ip addresses -> AS number and service provider
 
+
 Domain/hostname -> nameserver hostnames
+
 Domain/hostname -> nameserver hostnames -> ip addresses
+
 Domain/hostname -> nameserver hostnames -> ip addresses, cut to /24 bit subnet mask
+
 Domain/hostname -> nameserver hostnames -> ip addresses -> Country
+
 Domain/hostname -> nameserver hostnames -> ip addresses -> AS number and service provider
 
+
 Domain/hostname -> mailserver hostnames
+
 Domain/hostname -> mailserver hostnames -> ip addresses
+
 Domain/hostname -> mailserver hostnames -> ip addresses, cut to /24 bit subnet mask
+
 Domain/hostname -> mailserver hostnames -> ip addresses -> Country
+
 Domain/hostname -> mailserver hostnames -> ip addresses -> AS number and service provider
+
 
 So basically scripts do dns queries for A,NS and MX records and resulting ip addresses are queried from maxmind for AS and country information.
 All data is saved to project folder.
@@ -35,8 +49,11 @@ Processed output goes to "your-project-name"/results folder and it contains:
 
 
 1.1 CSV file for spreadsheet reporting
+
 1.2 *.mysql.csv file for database importing
+
 1.3 SVG picture files that are generated from data (best viewed with browser)
+
 
 Note that *.mysql.csv files have different approach to data than normal csv and aren't necessarily the best option for spreadsheet analysis.
 
