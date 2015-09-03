@@ -9,8 +9,6 @@ Data of domains/hostnames and their possibly shared resources is visualised with
 
 Information that scripts collect is:
 
-IPV4 and IPV6 scripts need to be run separately
-
 
 # A-records
 
@@ -49,16 +47,18 @@ Domain/hostname -> mailserver hostnames -> ip addresses -> AS number and service
 
 So basically scripts do dns queries for A,NS and MX records and resulting ip addresses are queried from maxmind for AS and country information.
 
+IPV4 and IPV6 scripts need to be run separately
+
 All data is saved to project folder.
 
 Processed output goes to "your-project-name"/results folder and it contains:
 
 
-1.1 CSV file for spreadsheet reporting
+1.1 csv files for spreadsheet reporting
 
-1.2 *.mysql.csv file for database importing
+1.2 *.mysql.csv files for database importing
 
-1.3 SVG picture files that are generated from data (best viewed with browser)
+1.3 svg picture files that are generated from data (best viewed with browser)
 
 
 Note that *.mysql.csv files have different approach to data than normal csv and aren't necessarily the best option for spreadsheet analysis.
