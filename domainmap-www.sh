@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 echo -n "Project name: "
 read PROJECT
 cur=`pwd`
