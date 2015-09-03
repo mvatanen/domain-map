@@ -69,9 +69,13 @@ Note that *.mysql.csv files have different approach to data than normal csv and 
 Tested with Xubuntu, Kali-linux and Debian and made for /bin/bash
 
 You need following packages:
+
 dig (dns queries)
+
 idn2 (international names)
+
 geoip-bin geoip-database-contrib (maxmind free database)
+
 graphviz ( (dot) visualisation)
 
 others: awk,sed,cut
