@@ -4,7 +4,7 @@ Shell scripts that finds and visualises relations between domain names and their
 
 # Description
 
-Provided shell scripts fetch information about domain names / hostnames and their service information from public dns system and maxmind database.
+Provided shell scripts fetch information about domain names / hostnames and their public service information from public dns system and maxmind database.
 Data of domains/hostnames and their possibly shared resources is visualised with graphviz/dot and also put to csv files.
 
 Information that scripts collect is:
@@ -101,3 +101,5 @@ While doing www-server ( A-record) query "domain.name" is first tried and if the
 You can always combine .dot files with other .dot files ( if it  makes any sense), and regenerate pictures
 
 Only one graphviz/dot picture generation format is enabled. Others are commented out (check the end of the scripts). Some formats can't be generated if there are too many objects.
+
+You can also buy more accurate MaxMind database
