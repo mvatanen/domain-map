@@ -7,7 +7,7 @@ Shell scripts that finds and visualises relations between domain names and their
 Provided shell scripts fetch information about domain names / hostnames and their public service information from public dns system and maxmind database.
 Data of domains/hostnames and their possibly shared resources is visualised with graphviz/dot and also put to csv files.
 
-Information that scripts collect is:
+Information that scripts collect:
 
 
 # A-records
@@ -48,7 +48,7 @@ Domain/hostname -> mailserver hostnames -> ip addresses -> AS number and service
 
 So basically scripts do dns queries for A,NS and MX records and resulting ip addresses are queried from maxmind for AS and country information.
 
-IPV4 and IPV6 scripts are seaparate on purpose.
+IPV4 and IPV6 scripts are separate on purpose.
 
 All data is saved to project folder and processed output goes to "your-project-name"/results folder and it contains:
 
