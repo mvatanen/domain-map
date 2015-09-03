@@ -2,7 +2,7 @@
 Shell scripts that finds and visualises relations between domain names and their services
 
 
-1. Description
+# Description
 
 Provided shell scripts fetch information about domain names / hostnames and their service information from public dns system and maxmind database.
 Data of domains/hostnames and their possibly shared resources is visualised with graphviz/dot and also put to csv files.
@@ -22,7 +22,7 @@ Domain/hostname -> www-server ip addresses -> Country
 
 Domain/hostname -> www-server ip addresses -> AS number and service provider
 
-#NS-records
+# NS-records
 
 Domain/hostname -> nameserver hostnames
 
@@ -34,7 +34,7 @@ Domain/hostname -> nameserver hostnames -> ip addresses -> Country
 
 Domain/hostname -> nameserver hostnames -> ip addresses -> AS number and service provider
 
-#MX-records
+# MX-records
 
 Domain/hostname -> mailserver hostnames
 
@@ -64,7 +64,7 @@ Processed output goes to "your-project-name"/results folder and it contains:
 Note that *.mysql.csv files have different approach to data than normal csv and aren't necessarily the best option for spreadsheet analysis.
 
 
-2. Requirements
+# Requirements
 
 Tested with Xubuntu, Kali-linux and Debian and made for /bin/bash
 
@@ -77,7 +77,7 @@ graphviz ( (dot) visualisation)
 others: awk,sed,cut
 
 
-3. Howto
+# Howto
 
 All scripts take filename "domains" as input. So put your domain and hostnames to that file in the same folder as the scipts. If you want to, you can run all scripts with same project name, since data is put to different folders inside the procect folder.
 
@@ -86,7 +86,7 @@ chmod +x scriptname
 
 
 
-4. Other information
+# Other information
 
 By default system configured dns addresses are used. You can also modify dig command to use different dns servers.
 
