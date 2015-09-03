@@ -92,7 +92,7 @@ chmod +x scriptname
 
 # Other information
 
-By default system configured dns addresses are used. You can also modify dig command to use different dns servers.
+By default, system configured dns addresses are used. You can also modify dig command to use different dns servers.
 
 Default sleep time between queries is 0.2 seconds, so there should be roughly 5 queries / second.
 
@@ -100,4 +100,4 @@ While doing www-server ( A-record) query "domain.name" is first tried and if the
 
 You can always combine .dot files with other .dot files ( if it  makes any sense), and regenerate pictures
 
-Only one graphviz/dot picture generation format is enabled. Others are commented out (check the end of the scripts).
+Only one graphviz/dot picture generation format is enabled. Others are commented out (check the end of the scripts). Some formats can't be generated if there are too many objects.
