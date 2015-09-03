@@ -45,13 +45,12 @@ Domain/hostname -> mailserver hostnames -> ip addresses -> Country
 Domain/hostname -> mailserver hostnames -> ip addresses -> AS number and service provider
 
 
+
 So basically scripts do dns queries for A,NS and MX records and resulting ip addresses are queried from maxmind for AS and country information.
 
-IPV4 and IPV6 scripts need to be run separately
+IPV4 and IPV6 scripts are seaparate on purpose.
 
-All data is saved to project folder.
-
-Processed output goes to "your-project-name"/results folder and it contains:
+All data is saved to project folder and processed output goes to "your-project-name"/results folder and it contains:
 
 
 1.1 csv files for spreadsheet reporting
@@ -78,7 +77,7 @@ geoip-bin geoip-database-contrib (maxmind free database)
 
 graphviz ( (dot) visualisation)
 
-others: awk,sed,cut
+others: awk,sed,cut,tr
 
 
 # Howto
@@ -86,6 +85,7 @@ others: awk,sed,cut
 All scripts take filename "domains" as input. So put your domain and hostnames to that file in the same folder as the scipts. If you want to, you can run all scripts with same project name, since data is put to different folders inside the project folder.
 
 chmod +x scriptname
+
 ./scriptname
 
 
