@@ -83,7 +83,7 @@ others: awk,sed,cut
 
 # Howto
 
-All scripts take filename "domains" as input. So put your domain and hostnames to that file in the same folder as the scipts. If you want to, you can run all scripts with same project name, since data is put to different folders inside the procect folder.
+All scripts take filename "domains" as input. So put your domain and hostnames to that file in the same folder as the scipts. If you want to, you can run all scripts with same project name, since data is put to different folders inside the project folder.
 
 chmod +x scriptname
 ./scriptname
