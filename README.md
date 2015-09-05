@@ -96,7 +96,7 @@ By default, system configured dns addresses are used. You can also modify dig co
 
 Default sleep time between queries is 0.2 seconds, so there should be roughly 5 queries / second.
 
-While doing www-server ( A-record) query "domain.name" is first tried and if there is no record then "www.domain.name" is tried next. So if you want to query additional names like mail.domain.com or extranet.domain.com add the names to the domains file.
+While doing www-server ( A-record) query "domain.name" is first tried and if there is no record then "www.domain.name" is tried next. So if you want to query additional names like mail.domain.name or extranet.domain.name add the names to the domains file.
 
 You can always combine .dot files with other .dot files ( if it  makes any sense), and regenerate pictures
 
