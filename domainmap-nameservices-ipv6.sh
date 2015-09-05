@@ -1,5 +1,6 @@
-#!/bin/bash
+#https://github.com/mvatanen
 
+#!/bin/bash
 
 echo -n "Project name: "
 read PROJECT
