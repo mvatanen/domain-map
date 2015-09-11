@@ -6,6 +6,7 @@ echo -n "Project name: "
 read PROJECT
 cur=`pwd`
 mkdir -p $cur/$PROJECT/wwwipv6/results/mysql
+mkdir -p $cur/$PROJECT/wwwipv6/results/dot
 FOLDER=$cur/$PROJECT/wwwipv6
 
 #DNS A-records
@@ -29,7 +30,7 @@ while read line
 do
  for ip in `cat "$FOLDER/$line"`
  do
- echo "\"$line\" -> "\"$ip\" >> "$FOLDER/www6.dot"
+ echo "\"$line\" -> "\"$ip\" >> "$FOLDER/dot/www6.dot"
  echo "$line,$ip" >> "$FOLDER/results/www6.csv"
  echo "$line,$ip" >> "$FOLDER/results/mysql/www-ipv6-mysql.csv"
  done
@@ -42,7 +43,7 @@ do
  do
  for country in "`geoiplookup $ip|grep Country|cut -d ',' -f2-|awk {'print tolower($0)'}|tr -d "'"|xargs`"
  do
- echo "\"$line\" -> "\"$country\" >> "$FOLDER/wwwcountry.dot"
+ echo "\"$line\" -> "\"$country\" >> "$FOLDER/dot/wwwcountry.dot"
  echo "$line,$country" >> "$FOLDER/results/www6country.csv"
  echo "$line,$ip,$country" >> "$FOLDER/results/mysql/www-ipv6-country-mysql.csv"
  done
@@ -56,7 +57,7 @@ do
  do
  for AS in "`geoiplookup $ip|grep ASNum|cut -d ':' -f2-|awk {'print tolower($0)'}|tr -d "'"|xargs`"
  do
- echo "\"$AS\" -> "\"$line\" >> "$FOLDER/wwwAS.dot"
+ echo "\"$AS\" -> "\"$line\" >> "$FOLDER/dot/wwwAS.dot"
  echo "$line,$AS" >> "$FOLDER/results/www6AS.csv"
  echo "$line,$ip,$AS" >> "$FOLDER/results/mysql/www-ipv6-as-mysql.csv"
  done
@@ -65,57 +66,57 @@ done < domains
 
 #Generate dor files
 #ASNUMBER
-cat "$FOLDER/wwwAS.dot"|sort|uniq >> "$FOLDER/wwwAS.tmp"
-rm "$FOLDER/wwwAS.dot"
-echo "digraph wwwipv6as {" > "$FOLDER/wwwAS.dot"
-cat "$FOLDER/wwwAS.tmp" >> "$FOLDER/wwwAS.dot"
-echo "}" >> "$FOLDER/wwwAS.dot"
+cat "$FOLDER/dot/wwwAS.dot"|sort|uniq >> "$FOLDER/dot/wwwAS.tmp"
+rm "$FOLDER/dot/wwwAS.dot"
+echo "digraph wwwipv6as {" > "$FOLDER/dot/wwwAS.dot"
+cat "$FOLDER/dot/wwwAS.tmp" >> "$FOLDER/dot/wwwAS.dot"
+echo "}" >> "$FOLDER/dot/wwwAS.dot"
 
 #COUNTRY
-cat "$FOLDER/wwwcountry.dot"|sort|uniq >> "$FOLDER/wwwcountry.tmp"
-rm "$FOLDER/wwwcountry.dot"
-echo "digraph wwwipv6country {" > "$FOLDER/wwwcountry.dot"
-cat "$FOLDER/wwwcountry.tmp" >> "$FOLDER/wwwcountry.dot"
-echo "}" >> "$FOLDER/wwwcountry.dot"
+cat "$FOLDER/dot/wwwcountry.dot"|sort|uniq >> "$FOLDER/dot/wwwcountry.tmp"
+rm "$FOLDER/dot/wwwcountry.dot"
+echo "digraph wwwipv6country {" > "$FOLDER/dot/wwwcountry.dot"
+cat "$FOLDER/dot/wwwcountry.tmp" >> "$FOLDER/dot/wwwcountry.dot"
+echo "}" >> "$FOLDER/dot/wwwcountry.dot"
 
 #IPV6
-cat "$FOLDER/www6.dot"|sort|uniq >> "$FOLDER/www6.tmp"
-rm "$FOLDER/www6.dot"
-echo "digraph wwwipv6 {" > "$FOLDER/www6.dot"
-cat "$FOLDER/a2.tmp" >> "$FOLDER/www6.dot"
-echo "}" >> "$FOLDER/www6.dot"
+cat "$FOLDER/dot/www6.dot"|sort|uniq >> "$FOLDER/dot/www6.tmp"
+rm "$FOLDER/dot/www6.dot"
+echo "digraph wwwipv6 {" > "$FOLDER/dot/www6.dot"
+cat "$FOLDER/dot/www6.tmp" >> "$FOLDER/dot/www6.dot"
+echo "}" >> "$FOLDER/dot/www6.dot"
 
 echo "Generating pictures..."
 DOT=/usr/bin/dot
 
 #WWW6
-$DOT -Tsvg -Kfdp "$FOLDER/www6.dot" -o $FOLDER/results/"www6"-fdp.svg
-#$DOT -Tsvg -Kdot "$FOLDER/www6.dot" -o $FOLDER/results/"www6"-dot.svg
-#$DOT -Tsvg -Kneato "$FOLDER/www6.dot" -o $FOLDER/results/"www6"-neato.svg
-#$DOT -Tsvg -Ktwopi "$FOLDER/www6.dot" -o $FOLDER/results/"www6"-twopi.svg
-#$DOT -Tsvg -Kcirco "$FOLDER/www6.dot" -o $FOLDER/results/"www6"-circo.svg
-#$DOT -Tsvg -Ksfdp "$FOLDER/www6.dot" -o $FOLDER/results/"www6"-sfdp.svg
+$DOT -Tsvg -Kfdp "$FOLDER/dot/www6.dot" -o $FOLDER/results/"www6"-fdp.svg
+#$DOT -Tsvg -Kdot "$FOLDER/dot/www6.dot" -o $FOLDER/results/"www6"-dot.svg
+#$DOT -Tsvg -Kneato "$FOLDER/dot/www6.dot" -o $FOLDER/results/"www6"-neato.svg
+#$DOT -Tsvg -Ktwopi "$FOLDER/dot/www6.dot" -o $FOLDER/results/"www6"-twopi.svg
+#$DOT -Tsvg -Kcirco "$FOLDER/dot/www6.dot" -o $FOLDER/results/"www6"-circo.svg
+#$DOT -Tsvg -Ksfdp "$FOLDER/dot/www6.dot" -o $FOLDER/results/"www6"-sfdp.svg
 
 #COUNTRY
-$DOT -Tsvg -Kfdp $FOLDER/"wwwcountry.dot" -o $FOLDER/results/"wwwcountry6"-fdp.svg
-#$DOT -Tsvg -Kdot $FOLDER/"wwwcountry.dot" -o $FOLDER/results/"wwwcountry6"-dot.svg
-#$DOT -Tsvg -Kneato $FOLDER/"wwwcountry.dot" -o $FOLDER/results/"wwwcountry6"-neato.svg
-#$DOT -Tsvg -Ktwopi $FOLDER/"wwwcountry.dot" -o $FOLDER/results/"wwwcountry6"-twopi.svg
-#$DOT -Tsvg -Kcirco $FOLDER/"wwwcountry.dot" -o $FOLDER/results/"wwwcountry6"-circo.svg
-#$DOT -Tsvg -Ksfdp $FOLDER/"wwwcountry.dot" -o $FOLDER/results/"wwwcountry6"-sfdp.svg
+$DOT -Tsvg -Kfdp $FOLDER/dot/"wwwcountry.dot" -o $FOLDER/results/"wwwcountry6"-fdp.svg
+#$DOT -Tsvg -Kdot $FOLDER/dot/"wwwcountry.dot" -o $FOLDER/results/"wwwcountry6"-dot.svg
+#$DOT -Tsvg -Kneato $FOLDER/dot/"wwwcountry.dot" -o $FOLDER/results/"wwwcountry6"-neato.svg
+#$DOT -Tsvg -Ktwopi $FOLDER/dot/"wwwcountry.dot" -o $FOLDER/results/"wwwcountry6"-twopi.svg
+#$DOT -Tsvg -Kcirco $FOLDER/dot/"wwwcountry.dot" -o $FOLDER/results/"wwwcountry6"-circo.svg
+#$DOT -Tsvg -Ksfdp $FOLDER/dot/"wwwcountry.dot" -o $FOLDER/results/"wwwcountry6"-sfdp.svg
 
 #ASNUMBER
-$DOT -Tsvg -Kfdp $FOLDER/"wwwAS.dot" -o $FOLDER/results/"wwwAS6"-fdp.svg
-#$DOT -Tsvg -Kdot $FOLDER/"wwwAS.dot" -o $FOLDER/results/"wwwAS6"-dot.svg
-#$DOT -Tsvg -Kneato $FOLDER/"wwwAS.dot" -o $FOLDER/results/"wwwAS6"-neato.svg
-#$DOT -Tsvg -Ktwopi $FOLDER/"wwwAS.dot" -o $FOLDER/results/"wwwAS6"-twopi.svg
-#$DOT -Tsvg -Kcirco $FOLDER/"wwwAS.dot" -o $FOLDER/results/"wwwAS6"-circo.svg
-#$DOT -Tsvg -Ksfdp $FOLDER/"wwwAS.dot" -o $FOLDER/results/"wwwAS6"-sfdp.svg
+$DOT -Tsvg -Kfdp $FOLDER/dot/"wwwAS.dot" -o $FOLDER/results/"wwwAS6"-fdp.svg
+#$DOT -Tsvg -Kdot $FOLDER/dot/"wwwAS.dot" -o $FOLDER/results/"wwwAS6"-dot.svg
+#$DOT -Tsvg -Kneato $FOLDER/dot/"wwwAS.dot" -o $FOLDER/results/"wwwAS6"-neato.svg
+#$DOT -Tsvg -Ktwopi $FOLDER/dot/"wwwAS.dot" -o $FOLDER/results/"wwwAS6"-twopi.svg
+#$DOT -Tsvg -Kcirco $FOLDER/dot/"wwwAS.dot" -o $FOLDER/results/"wwwAS6"-circo.svg
+#$DOT -Tsvg -Ksfdp $FOLDER/dot/"wwwAS.dot" -o $FOLDER/results/"wwwAS6"-sfdp.svg
 
 
-rm $FOLDER/"www6.tmp"
-rm $FOLDER/"wwwcountry.tmp"
-rm $FOLDER/"wwwAS.tmp"
+rm $FOLDER/dot/"www6.tmp"
+rm $FOLDER/dot/"wwwcountry.tmp"
+rm $FOLDER/dot/"wwwAS.tmp"
 
 printf "Done\n"
 exit 0
