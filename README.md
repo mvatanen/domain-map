@@ -1,6 +1,7 @@
 # domain-map
 Shell scripts that finds and visualises relations between domain names and their services
 
+Example: https://github.com/mvatanen/domain-map/wiki
 
 # Description
 
