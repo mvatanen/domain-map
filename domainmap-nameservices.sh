@@ -22,8 +22,8 @@ do
  do
  for serverip in `dig $servername +short|awk {'print tolower($1)'}`
  do
- echo "\"$line\" -> "\"$serverip\" >> "$FOLDER/dot/nsip.dot"
- echo "\"$line\" -> "\"$servername\" >> "$FOLDER/dot/ns.dot"
+ echo "\"$line\" -> "\"$serverip\" >> "$FOLDER/results/dot/nsip.dot"
+ echo "\"$line\" -> "\"$servername\" >> "$FOLDER/results/dot/ns.dot"
  echo "$line,$serverip" >> "$FOLDER/results/nsip.csv"
  echo "$line,$servername" >> "$FOLDER/results/ns.csv"
  echo "$line,$servername,$serverip" >> "$FOLDER/results/mysql/name-server-ip-mysql.csv"
@@ -39,7 +39,7 @@ do
  do
  for serverip in `dig $servername +short|sed 's/\.[0-9]*$/.0/'|awk {'print tolower($1)'}`
  do
- echo "\"$line\" -> "\"$serverip\" >> "$FOLDER/dot/nsip24.dot"
+ echo "\"$line\" -> "\"$serverip\" >> "$FOLDER/results/dot/nsip24.dot"
  done
  done
 done < domains
@@ -51,7 +51,7 @@ do
  do
  for country in "`geoiplookup $serverip|grep Country|cut -d ',' -f2-|tr -d "'"|xargs`"
  do
- echo "\"$line\" -> "\"$country\" >> "$FOLDER/dot/namecountry.dot"
+ echo "\"$line\" -> "\"$country\" >> "$FOLDER/results/dot/namecountry.dot"
  echo "$line,$country" >> "$FOLDER/results/nscountry.csv"
  echo "$line,$serverip,$country" >> "$FOLDER/results/mysql/name-ip-country-mysql.csv"
  done
@@ -65,7 +65,7 @@ do
  do
  for AS in "`geoiplookup $ip|grep ASNum|cut -d ':' -f2-|awk {'print tolower($0)'}|tr -d "'"|xargs`"
  do
- echo "\"$AS\" -> "\"$line\" >> "$FOLDER/dot/nameAS.dot"
+ echo "\"$AS\" -> "\"$line\" >> "$FOLDER/results/dot/nameAS.dot"
  echo "$AS,$line" >> "$FOLDER/results/nsAS.csv"
  echo "$line,$ip,$AS" >> "$FOLDER/results/mysql/name-ip-as-mysql.csv"
  done
@@ -73,78 +73,78 @@ do
 done < domains
 
 #Make dot files
-cat "$FOLDER/dot/nameAS.dot"|sort|uniq >> "$FOLDER/dot/nameAS.tmp"
-rm "$FOLDER/dot/nameAS.dot"
-echo "digraph nsAS {" > "$FOLDER/dot/nameAS.dot"
-cat "$FOLDER/dot/nameAS.tmp" >> "$FOLDER/dot/nameAS.dot"
-echo "}" >> "$FOLDER/dot/nameAS.dot"
+cat "$FOLDER/results/dot/nameAS.dot"|sort|uniq >> "$FOLDER/results/dot/nameAS.tmp"
+rm "$FOLDER/results/dot/nameAS.dot"
+echo "digraph nsAS {" > "$FOLDER/results/dot/nameAS.dot"
+cat "$FOLDER/results/dot/nameAS.tmp" >> "$FOLDER/results/dot/nameAS.dot"
+echo "}" >> "$FOLDER/results/dot/nameAS.dot"
 
-cat "$FOLDER/dot/ns.dot"|sort|uniq >> "$FOLDER/dot/ns.tmp"
-rm "$FOLDER/dot/ns.dot"
-echo "digraph nsresolvers {" > "$FOLDER/dot/ns.dot"
-cat "$FOLDER/dot/ns.tmp" >> "$FOLDER/dot/ns.dot"
-echo "}" >> "$FOLDER/dot/ns.dot"
+cat "$FOLDER/results/dot/ns.dot"|sort|uniq >> "$FOLDER/results/dot/ns.tmp"
+rm "$FOLDER/results/dot/ns.dot"
+echo "digraph nsresolvers {" > "$FOLDER/results/dot/ns.dot"
+cat "$FOLDER/results/dot/ns.tmp" >> "$FOLDER/results/dot/ns.dot"
+echo "}" >> "$FOLDER/results/dot/ns.dot"
 
-cat "$FOLDER/dot/namecountry.dot"|sort|uniq >> "$FOLDER/dot/namecountry.tmp"
-rm "$FOLDER/dot/namecountry.dot"
-echo "digraph nameservercountry {" > "$FOLDER/dot/namecountry.dot"
-cat "$FOLDER/dot/namecountry.tmp" >> "$FOLDER/dot/namecountry.dot"
-echo "}" >> "$FOLDER/dot/namecountry.dot"
+cat "$FOLDER/results/dot/namecountry.dot"|sort|uniq >> "$FOLDER/results/dot/namecountry.tmp"
+rm "$FOLDER/results/dot/namecountry.dot"
+echo "digraph nameservercountry {" > "$FOLDER/results/dot/namecountry.dot"
+cat "$FOLDER/results/dot/namecountry.tmp" >> "$FOLDER/results/dot/namecountry.dot"
+echo "}" >> "$FOLDER/results/dot/namecountry.dot"
 
-cat "$FOLDER/dot/nsip.dot"|sort|uniq >> "$FOLDER/dot/nsip.tmp"
-rm "$FOLDER/dot/nsip.dot"
-echo "digraph nsIP {" > "$FOLDER/dot/nsip.dot"
-cat "$FOLDER/dot/nsip.tmp" >> "$FOLDER/dot/nsip.dot"
-echo "}" >> "$FOLDER/nsip.dot"
+cat "$FOLDER/results/dot/nsip.dot"|sort|uniq >> "$FOLDER/results/dot/nsip.tmp"
+rm "$FOLDER/results/dot/nsip.dot"
+echo "digraph nsIP {" > "$FOLDER/results/dot/nsip.dot"
+cat "$FOLDER/results/dot/nsip.tmp" >> "$FOLDER/results/dot/nsip.dot"
+echo "}" >> "$FOLDER/results/dot/nsip.dot"
 
-cat "$FOLDER/dot/nsip24.dot"|sort|uniq >> "$FOLDER/dot/nsip24.tmp"
-rm "$FOLDER/dot/nsip24.dot"
-echo "digraph nsIP24 {" > "$FOLDER/dot/nsip24.dot"
-cat "$FOLDER/dot/nsip24.tmp" >> "$FOLDER/dot/nsip24.dot"
-echo "}" >> "$FOLDER/dot/nsip24.dot"
+cat "$FOLDER/results/dot/nsip24.dot"|sort|uniq >> "$FOLDER/results/dot/nsip24.tmp"
+rm "$FOLDER/results/dot/nsip24.dot"
+echo "digraph nsIP24 {" > "$FOLDER/results/dot/nsip24.dot"
+cat "$FOLDER/results/dot/nsip24.tmp" >> "$FOLDER/results/dot/nsip24.dot"
+echo "}" >> "$FOLDER/results/dot/nsip24.dot"
 
 
 echo "Generating pictures..."
 DOT=/usr/bin/dot
 
 #nameservers
-$DOT -Tsvg -Kfdp "$FOLDER/dot/ns.dot" -o $FOLDER/results/"ns"-fdp.svg
-#$DOT -Tsvg -Kdot "$FOLDER/dot/ns.dot" -o $FOLDER/results/"ns"-dot.svg
-#$DOT -Tsvg -Kneato "$FOLDER/dot/ns.dot" -o $FOLDER/results/"ns"-neato.svg
-#$DOT -Tsvg -Ktwopi "$FOLDER/dot/ns.dot" -o $FOLDER/results/"ns"-twopi.svg
-#$DOT -Tsvg -Kcirco "$FOLDER/dot/ns.dot" -o $FOLDER/results/"ns"-circo.svg
-#$DOT -Tsvg -Ksfdp "$FOLDER/dot/ns.dot" -o $FOLDER/results/"ns"-sfdp.svg
+$DOT -Tsvg -Kfdp "$FOLDER/results/dot/ns.dot" -o $FOLDER/results/"ns"-fdp.svg
+#$DOT -Tsvg -Kdot "$FOLDER/results/dot/ns.dot" -o $FOLDER/results/"ns"-dot.svg
+#$DOT -Tsvg -Kneato "$FOLDER/results/dot/ns.dot" -o $FOLDER/results/"ns"-neato.svg
+#$DOT -Tsvg -Ktwopi "$FOLDER/results/dot/ns.dot" -o $FOLDER/results/"ns"-twopi.svg
+#$DOT -Tsvg -Kcirco "$FOLDER/results/dot/ns.dot" -o $FOLDER/results/"ns"-circo.svg
+#$DOT -Tsvg -Ksfdp "$FOLDER/results/dot/ns.dot" -o $FOLDER/results/"ns"-sfdp.svg
 
 #IP
-$DOT -Tsvg -Kfdp "$FOLDER/dot/nsip.dot" -o $FOLDER/results/"nsip"-fdp.svg
-$DOT -Tsvg -Kfdp "$FOLDER/dot/nsip24.dot" -o $FOLDER/results/"nsip24"-fdp.svg
-#$DOT -Tsvg -Kdot "$FOLDER/dot/nsip.dot" -o $FOLDER/results/"nsip"-dot.svg
-#$DOT -Tsvg -Kneato "$FOLDER/dot/nsip.dot" -o $FOLDER/results/"nsip"-neato.svg
-#$DOT -Tsvg -Ktwopi "$FOLDER/dot/nsip.dot" -o $FOLDER/results/"nsip"-twopi.svg
-#$DOT -Tsvg -Kcirco "$FOLDER/dot/nsip.dot" -o $FOLDER/results/"nsip"-circo.svg
-#$DOT -Tsvg -Ksfdp "$FOLDER/dot/nsip.dot" -o $FOLDER/results/"nsip"-sfdp.svg
+$DOT -Tsvg -Kfdp "$FOLDER/results/dot/nsip.dot" -o $FOLDER/results/"nsip"-fdp.svg
+$DOT -Tsvg -Kfdp "$FOLDER/results/dot/nsip24.dot" -o $FOLDER/results/"nsip24"-fdp.svg
+#$DOT -Tsvg -Kdot "$FOLDER/results/dot/nsip.dot" -o $FOLDER/results/"nsip"-dot.svg
+#$DOT -Tsvg -Kneato "$FOLDER/results/dot/nsip.dot" -o $FOLDER/results/"nsip"-neato.svg
+#$DOT -Tsvg -Ktwopi "$FOLDER/results/dot/nsip.dot" -o $FOLDER/results/"nsip"-twopi.svg
+#$DOT -Tsvg -Kcirco "$FOLDER/results/dot/nsip.dot" -o $FOLDER/results/"nsip"-circo.svg
+#$DOT -Tsvg -Ksfdp "$FOLDER/results/dot/nsip.dot" -o $FOLDER/results/"nsip"-sfdp.svg
 
 #COUNTRY
-$DOT -Tsvg -Kfdp "$FOLDER/dot/namecountry.dot" -o $FOLDER/results/"namecountry"-fdp.svg
-#$DOT -Tsvg -Kdot "$FOLDER/dot/namecountry.dot" -o $FOLDER/results/"namecountry"-dot.svg
-#$DOT -Tsvg -Kneato "$FOLDER/dot/namecountry.dot" -o $FOLDER/results/"namecountry"-neato.svg
-#$DOT -Tsvg -Ktwopi "$FOLDER/dot/namecountry.dot" -o $FOLDER/results/"namecountry"-twopi.svg
-#$DOT -Tsvg -Kcirco "$FOLDER/dot/namecountry.dot" -o $FOLDER/results/"namecountry"-circo.svg
-#$DOT -Tsvg -Ksfdp "$FOLDER/dot/namecountry.dot" -o $FOLDER/results/"namecountry"-sfdp.svg
+$DOT -Tsvg -Kfdp "$FOLDER/results/dot/namecountry.dot" -o $FOLDER/results/"namecountry"-fdp.svg
+#$DOT -Tsvg -Kdot "$FOLDER/results/dot/namecountry.dot" -o $FOLDER/results/"namecountry"-dot.svg
+#$DOT -Tsvg -Kneato "$FOLDER/results/dot/namecountry.dot" -o $FOLDER/results/"namecountry"-neato.svg
+#$DOT -Tsvg -Ktwopi "$FOLDER/results/dot/namecountry.dot" -o $FOLDER/results/"namecountry"-twopi.svg
+#$DOT -Tsvg -Kcirco "$FOLDER/results/dot/namecountry.dot" -o $FOLDER/results/"namecountry"-circo.svg
+#$DOT -Tsvg -Ksfdp "$FOLDER/results/dot/namecountry.dot" -o $FOLDER/results/"namecountry"-sfdp.svg
 
 #AS
-$DOT -Tsvg -Kfdp "$FOLDER/dot/nameAS.dot" -o $FOLDER/results/"nameAS"-fdp.svg
-#$DOT -Tsvg -Kdot "$FOLDER/dot/nameAS.dot" -o $FOLDER/results/"nameAS"-dot.svg
-#$DOT -Tsvg -Kneato "$FOLDER/dot/nameAS.dot" -o $FOLDER/results/"nameAS"-neato.svg
-#$DOT -Tsvg -Ktwopi "$FOLDER/dot/nameAS.dot" -o $FOLDER/results/"nameAS"-twopi.svg
-#$DOT -Tsvg -Kcirco "$FOLDER/dot/nameAS.dot" -o $FOLDER/results/"nameAS"-circo.svg
-#$DOT -Tsvg -Ksfdp "$FOLDER/dot/nameAS.dot" -o $FOLDER/results/"nameAS"-sfdp.svg
+$DOT -Tsvg -Kfdp "$FOLDER/results/dot/nameAS.dot" -o $FOLDER/results/"nameAS"-fdp.svg
+#$DOT -Tsvg -Kdot "$FOLDER/results/dot/nameAS.dot" -o $FOLDER/results/"nameAS"-dot.svg
+#$DOT -Tsvg -Kneato "$FOLDER/results/dot/nameAS.dot" -o $FOLDER/results/"nameAS"-neato.svg
+#$DOT -Tsvg -Ktwopi "$FOLDER/results/dot/nameAS.dot" -o $FOLDER/results/"nameAS"-twopi.svg
+#$DOT -Tsvg -Kcirco "$FOLDER/results/dot/nameAS.dot" -o $FOLDER/results/"nameAS"-circo.svg
+#$DOT -Tsvg -Ksfdp "$FOLDER/results/dot/nameAS.dot" -o $FOLDER/results/"nameAS"-sfdp.svg
 
 
-rm "$FOLDER/dot/nsip.tmp"
-rm "$FOLDER/dot/nsip24.tmp"
-rm "$FOLDER/dot/namecountry.tmp"
-rm "$FOLDER/dot/nameAS.tmp"
+rm "$FOLDER/results/dot/nsip.tmp"
+rm "$FOLDER/results/dot/nsip24.tmp"
+rm "$FOLDER/results/dot/namecountry.tmp"
+rm "$FOLDER/results/dot/nameAS.tmp"
 
 printf "Done\n"
 exit 0
