@@ -123,7 +123,6 @@ $DOT -Tsvg -Kfdp "$FOLDER/results/dot/nameAS.dot" -o $FOLDER/results/"nameAS6"-f
 #$DOT -Tsvg -Kcirco "$FOLDER/results/dot/nameAS.dot" -o $FOLDER/results/"nameAS6"-circo.svg
 #$DOT -Tsvg -Ksfdp "$FOLDER/results/dot/nameAS.dot" -o $FOLDER/results/"nameAS6"-sfdp.svg
 
-
 rm "$FOLDER/results/dot/nsip.tmp"
 rm "$FOLDER/results/dot/namecountry.tmp"
 rm "$FOLDER/results/dot/nameAS.tmp"
