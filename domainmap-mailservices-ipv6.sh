@@ -26,7 +26,7 @@ do
  for serverip in `dig AAAA $servername +short|awk {'print tolower($1)'}`
  do
  echo "\"$line\" -> "\"$serverip\" >> "$FOLDER/results/dot/mx6.dot"
- echo "\"$line\" -> "\"$servername\" >> "$FOLDER/dot/results/mxipv6.dot"
+ echo "\"$line\" -> "\"$servername\" >> "$FOLDER/results/dot/mxipv6.dot"
  echo "$line,$serverip" >> "$FOLDER/results/mxipv6.csv"
  echo "$line,$servername" >> "$FOLDER/results/mxipv6.csv"
  echo "$line,$servername,$serverip" >> "$FOLDER/results/mysql/mail-server-ip6-mysql.csv"
