@@ -25,8 +25,8 @@ do
  then
  for serverip in `dig AAAA $servername +short|awk {'print tolower($1)'}`
  do
- echo "\"$line\" -> "\"$serverip\" >> "$FOLDER/dot/mx6.dot"
- echo "\"$line\" -> "\"$servername\" >> "$FOLDER/dot/mxipv6.dot"
+ echo "\"$line\" -> "\"$serverip\" >> "$FOLDER/results/dot/mx6.dot"
+ echo "\"$line\" -> "\"$servername\" >> "$FOLDER/dot/results/mxipv6.dot"
  echo "$line,$serverip" >> "$FOLDER/results/mxipv6.csv"
  echo "$line,$servername" >> "$FOLDER/results/mxipv6.csv"
  echo "$line,$servername,$serverip" >> "$FOLDER/results/mysql/mail-server-ip6-mysql.csv"
@@ -44,7 +44,7 @@ do
  do
  for country in "`geoiplookup $serverip|grep Country|cut -d ',' -f2-|tr -d "'"|xargs`"
  do
- echo "\"$line\" -> "\"$country\" >> "$FOLDER/dot/mailcountryipv6.dot"
+ echo "\"$line\" -> "\"$country\" >> "$FOLDER/results/dot/mailcountryipv6.dot"
  echo "$line,$country" >> "$FOLDER/results/mailcountryipv6.csv"
  echo "$line,$serverip,$country" >> "$FOLDER/results/mysql/mail-ip6-country-mysql.csv"
  done
@@ -58,7 +58,7 @@ do
  do
  for AS in "`geoiplookup $server|grep ASNum|cut -d ':' -f2-|awk {'print tolower($0)'}|tr -d "'"|xargs`"
  do
- echo "\"$AS\" -> "\"$line\" >> "$FOLDER/dot/mailipv6AS.dot"
+ echo "\"$AS\" -> "\"$line\" >> "$FOLDER/results/dot/mailipv6AS.dot"
  echo "$line,$AS" >> "$FOLDER/results/mailipv6AS.csv"
  echo "$line,$server,$AS" >> "$FOLDER/results/mysql/mail-ip6-as-mysql.csv"
  done
@@ -66,71 +66,71 @@ do
 done < domains
 
 #Make dot files
-cat "$FOLDER/dot/mailipv6AS.dot"|sort|uniq >> "$FOLDER/dot/mailipv6AS.tmp"
-rm "$FOLDER/dot/mailipv6AS.dot"
-echo "digraph mailserversipv6AS {" > "$FOLDER/dot/mailipv6AS.dot"
-cat "$FOLDER/dot/mailipv6AS.tmp" >> "$FOLDER/dot/mailipv6AS.dot"
-echo "}" >> "$FOLDER/dot/mailipv6AS.dot"
+cat "$FOLDER/results/dot/mailipv6AS.dot"|sort|uniq >> "$FOLDER/results/dot/mailipv6AS.tmp"
+rm "$FOLDER/results/dot/mailipv6AS.dot"
+echo "digraph mailserversipv6AS {" > "$FOLDER/results/dot/mailipv6AS.dot"
+cat "$FOLDER/results/dot/mailipv6AS.tmp" >> "$FOLDER/results/dot/mailipv6AS.dot"
+echo "}" >> "$FOLDER/results/dot/mailipv6AS.dot"
 
-cat "$FOLDER/dot/mxipv6.dot"|sort|uniq >> "$FOLDER/dot/mxipv6.tmp"
-rm "$FOLDER/dot/mxipv6.dot"
-echo "digraph mailserversipv6 {" > "$FOLDER/dot/mxipv6.dot"
-cat "$FOLDER/dot/mxipv6.tmp" >> "$FOLDER/dot/mxipv6.dot"
-echo "}" >> "$FOLDER/dot/mxipv6.dot"
+cat "$FOLDER/results/dot/mxipv6.dot"|sort|uniq >> "$FOLDER/results/dot/mxipv6.tmp"
+rm "$FOLDER/results/dot/mxipv6.dot"
+echo "digraph mailserversipv6 {" > "$FOLDER/results/dot/mxipv6.dot"
+cat "$FOLDER/results/dot/mxipv6.tmp" >> "$FOLDER/results/dot/mxipv6.dot"
+echo "}" >> "$FOLDER/results/dot/mxipv6.dot"
 
-cat "$FOLDER/dot/mailcountryipv6.dot"|sort|uniq >> "$FOLDER/dot/mailcountryipv6.tmp"
-rm "$FOLDER/dot/mailcountryipv6.dot"
-echo "digraph mailipv6country {" > "$FOLDER/dot/mailcountryipv6.dot"
-cat "$FOLDER/dot/mailcountryipv6.tmp" >> "$FOLDER/dot/mailcountryipv6.dot"
-echo "}" >> "$FOLDER/dot/mailcountryipv6.dot"
+cat "$FOLDER/results/dot/mailcountryipv6.dot"|sort|uniq >> "$FOLDER/results/dot/mailcountryipv6.tmp"
+rm "$FOLDER/results/dot/mailcountryipv6.dot"
+echo "digraph mailipv6country {" > "$FOLDER/results/dot/mailcountryipv6.dot"
+cat "$FOLDER/results/dot/mailcountryipv6.tmp" >> "$FOLDER/results/dot/mailcountryipv6.dot"
+echo "}" >> "$FOLDER/results/dot/mailcountryipv6.dot"
 
-cat "$FOLDER/dot/mx6.dot"|sort|uniq >> "$FOLDER/dot/mx6.tmp"
-rm "$FOLDER/dot/mx6.dot"
-echo "digraph mailmx6 {" > "$FOLDER/dot/mx6.dot"
-cat "$FOLDER/dot/mx6.tmp" >> "$FOLDER/dot/mx6.dot"
-echo "}" >> "$FOLDER/dot/mx6.dot"
+cat "$FOLDER/results/dot/mx6.dot"|sort|uniq >> "$FOLDER/results/dot/mx6.tmp"
+rm "$FOLDER/results/dot/mx6.dot"
+echo "digraph mailmx6 {" > "$FOLDER/results/dot/mx6.dot"
+cat "$FOLDER/results/dot/mx6.tmp" >> "$FOLDER/results/dot/mx6.dot"
+echo "}" >> "$FOLDER/results/dot/mx6.dot"
 
 echo "Generating pictures..."
 DOT=/usr/bin/dot
 
 #SERVERS
 
-$DOT -Tsvg -Kfdp "$FOLDER/dot/mx6.dot" -o $FOLDER/results/"mailserversipv6"-fdp.svg
-#$DOT -Tsvg -Kdot "$FOLDER/dot/mx6.dot" -o $FOLDER/results/"mx6"-dot.svg
-#$DOT -Tsvg -Kneato "$FOLDER/dot/mx6.dot" -o $FOLDER/results/"mx6"-neato.svg
-#$DOT -Tsvg -Ktwopi "$FOLDER/dot/mx6.dot" -o $FOLDER/results/"mx6"-twopi.svg
-#$DOT -Tsvg -Kcirco "$FOLDER/dot/mx6.dot" -o $FOLDER/results/"mx6"-circo.svg
-#$DOT -Tsvg -Ksfdp "$FOLDER/dot/mx6.dot" -o $FOLDER/results/"mx6"-sfdp.svg
+$DOT -Tsvg -Kfdp "$FOLDER/results/dot/mx6.dot" -o $FOLDER/results/"mailserversipv6"-fdp.svg
+#$DOT -Tsvg -Kdot "$FOLDER/results/dot/mx6.dot" -o $FOLDER/results/"mx6"-dot.svg
+#$DOT -Tsvg -Kneato "$FOLDER/results/dot/mx6.dot" -o $FOLDER/results/"mx6"-neato.svg
+#$DOT -Tsvg -Ktwopi "$FOLDER/results/dot/mx6.dot" -o $FOLDER/results/"mx6"-twopi.svg
+#$DOT -Tsvg -Kcirco "$FOLDER/results/dot/mx6.dot" -o $FOLDER/results/"mx6"-circo.svg
+#$DOT -Tsvg -Ksfdp "$FOLDER/results/dot/mx6.dot" -o $FOLDER/results/"mx6"-sfdp.svg
 
 #IP6
-$DOT -Tsvg -Kfdp "$FOLDER/dot/mxipv6.dot" -o $FOLDER/results/"mxipv6"-fdp.svg
-#$DOT -Tsvg -Kdot "$FOLDER/dot/mxipv6.dot" -o $FOLDER/results/"mxip6"-dot.svg
-#$DOT -Tsvg -Kneato "$FOLDER/dot/mxipv6.dot" -o $FOLDER/results/"mxip6"-neato.svg
-#$DOT -Tsvg -Ktwopi "$FOLDER/dot/mxipv6.dot" -o $FOLDER/results/"mxip6"-twopi.svg
-#$DOT -Tsvg -Kcirco "$FOLDER/dot/mxipv6.dot" -o $FOLDER/results/"mxip6"-circo.svg
-#$DOT -Tsvg -Ksfdp "$FOLDER/dot/mxipv6.dot" -o $FOLDER/results/"mxip6"-sfdp.svg
+$DOT -Tsvg -Kfdp "$FOLDER/results/dot/mxipv6.dot" -o $FOLDER/results/"mxipv6"-fdp.svg
+#$DOT -Tsvg -Kdot "$FOLDER/results/dot/mxipv6.dot" -o $FOLDER/results/"mxip6"-dot.svg
+#$DOT -Tsvg -Kneato "$FOLDER/results/dot/mxipv6.dot" -o $FOLDER/results/"mxip6"-neato.svg
+#$DOT -Tsvg -Ktwopi "$FOLDER/results/dot/mxipv6.dot" -o $FOLDER/results/"mxip6"-twopi.svg
+#$DOT -Tsvg -Kcirco "$FOLDER/results/dot/mxipv6.dot" -o $FOLDER/results/"mxip6"-circo.svg
+#$DOT -Tsvg -Ksfdp "$FOLDER/results/dot/mxipv6.dot" -o $FOLDER/results/"mxip6"-sfdp.svg
 
 #COUNTRY
-$DOT -Tsvg -Kfdp "$FOLDER/dot/mailcountryipv6.dot" -o $FOLDER/results/"mailcountryipv6"-fdp.svg
-#$DOT -Tsvg -Kdot "$FOLDER/dot/emailcountryipv6.dot" -o $FOLDER/results/"mailcountry6"-dot.svg
-#$DOT -Tsvg -Kneato "$FOLDER/dot/emailcountryipv6.dot" -o $FOLDER/results/"mailcountry6"-neato.svg
-#$DOT -Tsvg -Ktwopi "$FOLDER/dot/emailcountryipv6.dot" -o $FOLDER/results/"mailcountry6"-twopi.svg
-#$DOT -Tsvg -Kcirco "$FOLDER/dot/emailcountryipv6.dot" -o $FOLDER/results/"mailcountry6"-circo.svg
-#$DOT -Tsvg -Ksfdp "$FOLDER/dot/emailcountryipv6.dot" -o $FOLDER/results/"mailcountry6"-sfdp.svg
+$DOT -Tsvg -Kfdp "$FOLDER/results/dot/mailcountryipv6.dot" -o $FOLDER/results/"mailcountryipv6"-fdp.svg
+#$DOT -Tsvg -Kdot "$FOLDER/results/dot/emailcountryipv6.dot" -o $FOLDER/results/"mailcountry6"-dot.svg
+#$DOT -Tsvg -Kneato "$FOLDER/results/dot/emailcountryipv6.dot" -o $FOLDER/results/"mailcountry6"-neato.svg
+#$DOT -Tsvg -Ktwopi "$FOLDER/results/dot/emailcountryipv6.dot" -o $FOLDER/results/"mailcountry6"-twopi.svg
+#$DOT -Tsvg -Kcirco "$FOLDER/results/dot/emailcountryipv6.dot" -o $FOLDER/results/"mailcountry6"-circo.svg
+#$DOT -Tsvg -Ksfdp "$FOLDER/results/dot/emailcountryipv6.dot" -o $FOLDER/results/"mailcountry6"-sfdp.svg
 
 
 #AS
-$DOT -Tsvg -Kfdp "$FOLDER/dot/mailipv6AS.dot" -o $FOLDER/results/"mailipv6AS"-fdp.svg
-#$DOT -Tsvg -Kdot "$FOLDER/dot/mailipv6AS.dot" -o $FOLDER/results/"mailipv6AS"-dot.svg
-#$DOT -Tsvg -Kneato "$FOLDER/dot/mailipv6AS.dot" -o $FOLDER/results/"mailipv6AS6"-neato.svg
-#$DOT -Tsvg -Ktwopi "$FOLDER/dot/mailipv6AS.dot" -o $FOLDER/results/"mailipv6AS6"-twopi.svg
-#$DOT -Tsvg -Kcirco "$FOLDER/dot/mailipv6AS.dot" -o $FOLDER/results/"mailipv6AS6"-circo.svg
-#$DOT -Tsvg -Ksfdp "$FOLDER/dot/mailipv6AS.dot" -o $FOLDER/results/"mailipv6AS6"-sfdp.svg
+$DOT -Tsvg -Kfdp "$FOLDER/results/dot/mailipv6AS.dot" -o $FOLDER/results/"mailipv6AS"-fdp.svg
+#$DOT -Tsvg -Kdot "$FOLDER/results/dot/mailipv6AS.dot" -o $FOLDER/results/"mailipv6AS"-dot.svg
+#$DOT -Tsvg -Kneato "$FOLDER/results/dot/mailipv6AS.dot" -o $FOLDER/results/"mailipv6AS6"-neato.svg
+#$DOT -Tsvg -Ktwopi "$FOLDER/results/dot/mailipv6AS.dot" -o $FOLDER/results/"mailipv6AS6"-twopi.svg
+#$DOT -Tsvg -Kcirco "$FOLDER/results/dot/mailipv6AS.dot" -o $FOLDER/results/"mailipv6AS6"-circo.svg
+#$DOT -Tsvg -Ksfdp "$FOLDER/results/dot/mailipv6AS.dot" -o $FOLDER/results/"mailipv6AS6"-sfdp.svg
 
-rm "$FOLDER/dot/mailcountryipv6.tmp"
-rm "$FOLDER/dot/mxipv6.tmp"
-rm "$FOLDER/dot/mx6.tmp"
-rm "$FOLDER/dot/mailipv6AS.tmp"
+rm "$FOLDER/results/dot/mailcountryipv6.tmp"
+rm "$FOLDER/results/dot/mxipv6.tmp"
+rm "$FOLDER/results/dot/mx6.tmp"
+rm "$FOLDER/results/dot/mailipv6AS.tmp"
 
 printf "Done\n"
 exit 0
