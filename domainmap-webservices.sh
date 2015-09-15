@@ -81,7 +81,7 @@ echo "}" >> "$FOLDER/results/dot/wwwAS.dot"
 cat "$FOLDER/results/dot/wwwcountry.dot"|sort|uniq >> "$FOLDER/results/dot/wwwcountry.tmp"
 rm "$FOLDER/results/dot/wwwcountry.dot"
 echo "digraph wwwcountry {" > "$FOLDER/results/dot/wwwcountry.dot"
-cat "$FOLDER/dot/results/wwwcountry.tmp" >> "$FOLDER/results/dot/wwwcountry.dot"
+cat "$FOLDER/results/dot/wwwcountry.tmp" >> "$FOLDER/results/dot/wwwcountry.dot"
 echo "}" >> "$FOLDER/results/dot/wwwcountry.dot"
 
 cat "$FOLDER/results/dot/wwwIP.dot"|sort|uniq >> "$FOLDER/results/dot/wwwIP.tmp"
