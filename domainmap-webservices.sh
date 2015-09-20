@@ -21,6 +21,17 @@ if dig A +tries=5 $(idn2 $line)|grep NXDOMAIN >/dev/null
 sleep 0.2
 done < domains
 
+
+#FIND MORE DOMAINS (PTR)
+while read line
+do
+ for ip in `cat "$FOLDER/$line"`
+ do
+ dig +noall +answer -x $ip|awk {'print tolower($5)'} >> $FOLDER/results/PTR_Domains.txt
+ done
+done < domains
+
+
 #FIND IP
 while read line
 do

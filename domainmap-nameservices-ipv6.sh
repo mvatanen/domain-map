@@ -35,6 +35,16 @@ fi
  done
  done < domains
 
+#FIND MORE DOMAINS (PTR)
+while read line
+do
+ for ip in `cat "$FOLDER/ip/$line"`
+ do
+ dig +noall +answer -x $ip|awk {'print tolower($5)'} >> $FOLDER/results/PTR_Domains.txt
+ done
+done < domains
+
+
 #Country
 while read line
 do
