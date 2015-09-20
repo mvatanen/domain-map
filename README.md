@@ -53,9 +53,8 @@ Domain/hostname -> mailserver hostnames -> ip addresses -> AS number and service
 
 
 
-So basically scripts do dns queries for A,NS and MX records and resulting ip addresses are queried from maxmind for AS and country information.
+So basically scripts do dns queries for A,NS and MX records and resulting ip addresses are queried from maxmind for AS and country information. IPV4 and IPV6 scripts are separate on purpose.
 
-IPV4 and IPV6 scripts are separate on purpose.
 
 All data is saved to project folder and processed output goes to "your-project-name"/results folder and it contains:
 
@@ -69,6 +68,7 @@ All data is saved to project folder and processed output goes to "your-project-n
 1.4 Reverse domain query results (PTR-Domains.txt)
 
 Reverse records can be combined with original domains file.
+
 
 
 Note that *.mysql.csv files have different approach to data than normal csv and aren't necessarily the best option for spreadsheet analysis.
