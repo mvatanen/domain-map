@@ -27,7 +27,7 @@ while read line
 do
  for ip in `cat "$FOLDER/$line"`
  do
- dig +noall +answer -x $ip|awk {'print tolower($5)'} >> $FOLDER/results/PTR_Domains.txt
+ dig +noall +answer -x $ip|awk {'print tolower($5)'} >> $FOLDER/results/PTR_Domains_www.txt
  done
 done < domains
 
