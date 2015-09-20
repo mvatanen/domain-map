@@ -15,6 +15,8 @@ Information that scripts collect:
 
 Domain/hostname -> www-server ip addresses
 
+Domain/hostname -> www-server ip addresses -> Reverse, PTR records
+
 Domain/hostname -> www-server ip addresses, cut to /24 bit subnet mask
 
 Domain/hostname -> www-server ip addresses -> Country
@@ -27,6 +29,8 @@ Domain/hostname -> nameserver hostnames
 
 Domain/hostname -> nameserver hostnames -> ip addresses
 
+Domain/hostname -> nameserver hostnames -> ip addresses -> Reverse, PTR records
+
 Domain/hostname -> nameserver hostnames -> ip addresses, cut to /24 bit subnet mask
 
 Domain/hostname -> nameserver hostnames -> ip addresses -> Country
@@ -38,6 +42,8 @@ Domain/hostname -> nameserver hostnames -> ip addresses -> AS number and service
 Domain/hostname -> mailserver hostnames
 
 Domain/hostname -> mailserver hostnames -> ip addresses
+
+Domain/hostname -> mailserver hostnames -> ip addresses -> Reverse, PTR records
 
 Domain/hostname -> mailserver hostnames -> ip addresses, cut to /24 bit subnet mask
 
@@ -59,6 +65,10 @@ All data is saved to project folder and processed output goes to "your-project-n
 1.2 *.mysql.csv files for database importing
 
 1.3 svg picture files that are generated from data (best viewed with browser)
+
+1.4 Reverse domain query results (PTR-Domains.txt)
+
+Reverse records can be combined with original domains file.
 
 
 Note that *.mysql.csv files have different approach to data than normal csv and aren't necessarily the best option for spreadsheet analysis.
