@@ -113,4 +113,7 @@ You can always combine .dot files with other .dot files ( if it  makes any sense
 
 Only one graphviz/dot picture generation format is enabled. Others are commented out (check the end of the scripts). Some formats can't be generated if there are too many objects.
 
+If you want more advanced graphics (you have too many nodes for dot), try this: https://gephi.github.io/
+( use Oracle Java JDK 7 )
+
 You can also buy more accurate MaxMind database
